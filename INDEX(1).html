@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday! ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-pink: #f8c8dc;
+      --deep-pink: #d8829d;
+      --bg-cream: #fffafb;
+      --text-color: #5a4a4f;
+      --card-bg: rgba(255, 255, 255, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffeef2 0%, #fde2e8 100%);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Floating Heart Background Effect */
+    .heart-bg {
+      position: fixed;
+      top: -10px;
+      font-size: 20px;
+      color: rgba(248, 200, 220, 0.6);
+      animation: fall linear forwards;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(105vh) rotate(360deg);
+      }
+    }
+
+    /* Container & Slide Cards */
+    .container {
+      width: 90%;
+      max-width: 550px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide {
+      display: none;
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      padding: 2.5rem 2rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(216, 130, 157, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Sacramento', cursive;
+      font-size: 3.5rem;
+      color: var(--deep-pink);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--deep-pink);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(135deg, #f8b4c9, #e0839f);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(224, 131, 159, 0.35);
+      transition: all 0.25s ease;
+      margin: 0.3rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(224, 131, 159, 0.45);
+    }
+
+    /* Polaroid Gallery */
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      max-height: 380px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 10px 10px 20px 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 6px;
+      width: 85%;
+      transform: rotate(-1deg);
+      transition: transform 0.3s ease;
+    }
+
+    .polaroid:nth-child(even) {
+      transform: rotate(1.5deg);
+    }
+
+    .polaroid:hover {
+      transform: scale(1.03) rotate(0deg);
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .polaroid .caption {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #7d6b71;
+    }
+
+    /* Balloon Pop Mini-Game */
+    .game-board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+      min-height: 140px;
+    }
+
+    .balloon {
+      width: 55px;
+      height: 70px;
+      background: #f8b4c9;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease;
+      user-select: none;
+      box-shadow: inset -4px -4px 10px rgba(0,0,0,0.05);
+    }
+
+    .balloon:active {
+      transform: scale(0.9);
+    }
+
+    .popped {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Slide 1: Birthday Wish -->
+    <div class="slide active" id="slide-1">
+      <h1>Happy Birthday!</h1>
+      <p>Wishing you the happiest day filled with love, laughter, and everything sweet. I made a little corner of the internet just for you today. ✨</p>
+      <button class="btn" onclick="nextSlide(2)">Take a Look 💌</button>
+    </div>
+
+    <!-- Slide 2: Photo Memories -->
+    <div class="slide" id="slide-2">
+      <h2>Special Memories 🌸</h2>
+      <div class="gallery">
+        <div class="polaroid">
+          <!-- Replace this URL with your friend's picture -->
+          <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500" alt="Memory 1" />
+          <div class="caption">Our best adventures together!</div>
+        </div>
+        <div class="polaroid">
+          <!-- Replace this URL with another picture -->
+          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500" alt="Memory 2" />
+          <div class="caption">Always laughing with you 💕</div>
+        </div>
+      </div>
+      <div style="margin-top: 15px;">
+        <button class="btn" onclick="nextSlide(1)">Back</button>
+        <button class="btn" onclick="nextSlide(3)">Let's Play a Game 🎈</button>
+      </div>
+    </div>
+
+    <!-- Slide 3: Balloon Pop Game -->
+    <div class="slide" id="slide-3">
+      <h2>Pop All 5 Balloons! 🎈</h2>
+      <p style="font-size: 0.85rem;">Pop all balloons to reveal a secret birthday message!</p>
+      <div class="game-board">
+        <div class="balloon" onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" onclick="popBalloon(this)">🎈</div>
+      </div>
+      <div id="game-result" style="display:none; margin-bottom: 15px;">
+        <p style="color: var(--deep-pink); font-weight: 600;">🎉 You popped them all!</p>
+        <button class="btn" onclick="nextSlide(4)">Unlock Final Wish ✨</button>
+      </div>
+    </div>
+
+    <!-- Slide 4: Final Message -->
+    <div class="slide" id="slide-4">
+      <h1>You're The Best!</h1>
+      <p>May this year bring you endless opportunities, great health, and unforgettable moments. Enjoy your special day to the fullest! 🎂</p>
+      <button class="btn" onclick="nextSlide(1)">Start Over ↺</button>
+    </div>
+  </div>
+
+  <script>
+    // Slide Navigation
+    function nextSlide(slideNumber) {
+      document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
+      document.getElementById('slide-' + slideNumber).classList.add('active');
+    }
+
+    // Balloon Pop Game Logic
+    let poppedCount = 0;
+    function popBalloon(element) {
+      element.classList.add('popped');
+      poppedCount++;
+      if (poppedCount === 5) {
+        document.getElementById('game-result').style.display = 'block';
+      }
+    }
+
+    // Floating Hearts Animation
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart-bg';
+      heart.innerText = ['🌸', '✨', '💖', '🧁'][Math.floor(Math.random() * 4)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 600);
+  </script>
+</body>
+</html>
