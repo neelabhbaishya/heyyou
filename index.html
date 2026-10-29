@@ -190,6 +190,23 @@
       visibility: hidden;
       pointer-events: none;
     }
+
+    .balloon-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .balloon-message {
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(248, 200, 220, 0.35);
+      color: var(--text-color);
+      font-size: 0.9rem;
+      animation: fadeIn 0.4s ease;
+    }
   </style>
 </head>
 <body>
@@ -228,12 +245,13 @@
       <h2>Pop All 5 Balloons! 🎈</h2>
       <p style="font-size: 0.85rem;">Pop all balloons to reveal a secret birthday message!</p>
       <div class="game-board">
-        <div class="balloon" onclick="popBalloon(this)">🎈</div>
-        <div class="balloon" onclick="popBalloon(this)">🎈</div>
-        <div class="balloon" onclick="popBalloon(this)">🎈</div>
-        <div class="balloon" onclick="popBalloon(this)">🎈</div>
-        <div class="balloon" onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" data-label="Balloon 1" data-message="Brightest smile and widest heart, thank you for everything." onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" data-label="Balloon 2" data-message="I wish you receive all the things you want in your life and more." onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" data-label="Balloon 3" data-message="Glad I met you but curse them coz I met u so late." onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" data-label="Balloon 4" data-message="I like your jokes kid." onclick="popBalloon(this)">🎈</div>
+        <div class="balloon" data-label="Balloon 5" data-message="High time now finish Challengers." onclick="popBalloon(this)">🎈</div>
       </div>
+      <div id="balloon-messages" class="balloon-messages" aria-live="polite"></div>
       <div id="game-result" style="display:none; margin-bottom: 15px;">
         <p style="color: var(--deep-pink); font-weight: 600;">🎉 You popped them all!</p>
         <button class="btn" onclick="nextSlide(4)">Unlock Final Wish ✨</button>
@@ -260,6 +278,10 @@
     function popBalloon(element) {
       element.classList.add('popped');
       poppedCount++;
+      const message = document.createElement('p');
+      message.className = 'balloon-message';
+      message.textContent = `${element.dataset.label}: ${element.dataset.message}`;
+      document.getElementById('balloon-messages').appendChild(message);
       if (poppedCount === 5) {
         document.getElementById('game-result').style.display = 'block';
       }
